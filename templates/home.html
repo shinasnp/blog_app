@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Blog application</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/blog/blog.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="">Home</a>
+
+         
+        </nav>
+      </div>
+    </div>
+            
+            {% if not session.logged_in %}
+            <button type="submit" class="btn btn-success" name="opt"  value="login">login</button>
+            {% else %}
+            <button type="submit" class="btn btn-success" name="opt"  value="logout">logout</button>
+            {% endif %}
+        
+   <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title">Simple Blog Application</h1>
+        <p class="lead blog-description">a simple blog app shows the recently post blogs.</p>
+      </div>
+	</div>
+  <div class="item">
+<div>
+<ul class="list-group">
+  <li class="list-group-item list-group-item-success">
+{% block body %}
+{% if session.logged_in %}
+<form action="{{ url_for('add_entry') }}" method=post>
+<dl>
+<dt>Title:
+<dd><input type=text size=30 name=title>
+<dt>Text:
+<dd><textarea name=text rows=5 cols=40></textarea>
+<dd><input type=submit value=Share>
+</dl>
+</form>
+{% endif %}
+<ul>
+{% for entry in entries %}
+<li><h2><a href="/post/{{entry.title}}">{{ entry.title }}</a></h2>{{ entry.text|safe }}
+{% else %}
+<li><em>Unbelievable. No entries here so far</em>
+{% endfor %}
+</ul>
+{% endblock %}
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
+
